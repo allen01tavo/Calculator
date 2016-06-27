@@ -5,7 +5,12 @@
 import tkinter as Tr
 import tkinter.messagebox
 
+
+import database_ as db
+
+import texttable as tbl
 import sqlite3 as sql
+from test.sortperf import tabulate
 
 
 #import mysql
@@ -25,17 +30,44 @@ class calculator1:
         self.root.minsize(width=666, height=666)    # application window size
         self.frame_1 = tkinter.Frame(self.root)
         self.frame_2 = tkinter.Frame(self.root)
+        self.frame_3 = tkinter.Frame(self.root)
+        
         
         self.btn_click = tkinter.Button(self.frame_1, \
                                        text  = 'Press Me', command = self.ok_message)
         self.btn_close = tkinter.Button(self.frame_2,\
                                         text = 'CLOSE', command = self.root.destroy)
+        self.keyLabel = Tr.Entry(self.frame_1, \
+                                        width = 4)
+        self.nameLabel = Tr.Entry(self.frame_1, \
+                                        width = 10)
+        self.ageLabel = Tr.Entry(self.frame_1, \
+                                        width = 4)
+        self.blooSugarLabel = Tr.Entry(self.frame_1, \
+                                        width = 10)
+        
+        self.recordList = Tr.Listbox(self.frame_1, height=4, width= 50)
 
+        self.recordList.pack(side = 'bottom')
+        
         self.btn_click.pack(side = 'left')
         self.btn_close.pack(side = 'left')
-        self.databse()
+        self.keyLabel.pack(side = 'left')
+        self.nameLabel.pack(side = 'left')
+        self.ageLabel.pack(side = 'left')
+        self.blooSugarLabel.pack(side = 'left')
+        self.keyLabel.pack(side = 'left')
+        #self.databse()
+        db.database_().databse()
+        #inserting values into the record list
+        self.recordList.tk_menuBar()
+        cnt = 0
+        for result in db.database_.db_print(self, 'patient.db'):
+            self.recordList.insert(cnt,result)
+            ++cnt
         self.frame_1.pack()
-        self.frame_2.pack(side = 'bottom')
+        self.frame_2.pack()
+        self.frame_3.pack(side = 'top')
         
         tkinter.mainloop()
         
@@ -45,18 +77,18 @@ class calculator1:
         # This needs some implementation 
         table = sql.connect('patient.db')
         cursor = table.cursor()
+        #cursor.execute('CREATE DATABASE patient')
         self.testvalue = ''
         
         # CREATES TABLE IF DOES NOT EXIST
-        table.execute('''CREATE TABLE IF NOT EXISTS PATIENT (
-                           ID INT PRIMARY         KEY     NOT NULL,
+        cursor.execute('''CREATE TABLE IF NOT EXISTS PATIENT (
+                           ID INT PRIMARY         KEY    NOT NULL,
                            NAME                   TEXT    NOT NULL,
                            AGE                    INT     NOT NULL,
                            BLOOD SUGAR LEVEL      INT     NOT NULL,
                            TIME                   INT     NOT NULL,
                            DATE                   TEXT    NOT NULL);''')
 
-        self.root.title('Success')      # for testing only
         # print database
         values = cursor.fetchall()
         for row in values:
@@ -67,19 +99,20 @@ class calculator1:
                                     text = self.testvalue)
         
         self.label_2.pack(side = 'right')
+        #self.insert_data(table)
         
         
         table.close()
         
     def insert_data(self, table):
         #insert items into table
-        for i in [('Gustavo Maturana', 36, 95, 80, 'May 6'),
-                  ('Javier  Maturana', 33, 95, 100, 'May 7')]:
-            table.execute('INSERT INTO PATIENT VALUES (?,?,?,?,?)', i)
+        for i in [(1,'Gustavo Maturana', 36, 'May 6'),
+                  (2,'Javier  Maturana', 33, 'May 7')]:
+            table.execute('INSERT INTO PATIENT VALUES (?,?,?,?)', i)
             table.commit()
-        for i in [('Gustavo Maturana', 36, 95, 80, 'May 6'),
-                  ('Javier  Maturana', 33, 95, 100, 'May 7')]:
-            table.execute('INSERT INTO PATIENT VALUES (?,?,?,?,?)', i)
+        for i in [(3,'Gustavo Maturana', 36, 'May 6'),
+                  (4,'Javier  Maturana', 33, 'May 7')]:
+            table.execute('INSERT INTO PATIENT VALUES (?,?,?,?)', i)
             table.commit()
         
     def db_print(self):
@@ -92,6 +125,7 @@ class calculator1:
                                     text = 'Thank you for pressing me!')
         self.lable_1.pack(side = 'right')
         self.graph_()               # calls out the graph function after button is pressed
+        self.databse()           # calls out for the creation of the database
     
     def destroy_root(self):
         # destroys main window
@@ -112,17 +146,28 @@ class calculator1:
         # Graph sugar level vs time
         # This section has not been implemented
         title = 'Sugar Level Vs. Time'
+        output_txt = tbl.Texttable()
+        
+        output_txt.add_row(['Gus', 36]) 
+        output_txt.add_row(['Xavier', 33])
+        
         self.graph_window = Tr.Tk()                     # creates a new window
         self.graph_window.minsize(400, 300)
         self.graph_window.title(title)
         self.frame_1 = tkinter.Frame(self.graph_window) # frame to enclose the button
+        self.frame_2 = tkinter.Frame(self.graph_window)
         
         # Creates a close button
         self.close_btn = Tr.Button(self.frame_1, \
-                                       text  = 'Close', command = self.close_window)
+                                        text = 'Close', command = self.close_window)
+        self.output_lbl = Tr.Label(self.frame_2, \
+                                        text = output_txt.draw())
     
         self.close_btn.pack(side = 'left')
+        self.output_lbl.pack(side = 'right')
         self.frame_1.pack(side = 'bottom')
+        self.frame_2.pack(side = 'top')
+        print(output_txt.draw())
         
         
     def close_window(self):
@@ -132,5 +177,5 @@ class calculator1:
         # needs to fix this par
         
         
-myGuid = calculator1('BLOOD SUGAR LEVELS')
+#myGuid = calculator1('BLOOD SUGAR LEVEL')
     

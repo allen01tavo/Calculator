@@ -6,7 +6,7 @@ Created on Jun 27, 2016
 
 import tkinter as tk
 
-class MyClass(object):
+class errors_:
     '''
     classdocs
     '''
@@ -19,12 +19,22 @@ class MyClass(object):
     def error_messages(self, choice):
         
         if choice == 1:
-            tk.messagebox.showinfo('Error 1', 'Please enter a blood sugar level value')
+            tk.messagebox.showinfo('Error 1:', 'Please enter a blood sugar level value')
         if choice == 2:
-            tk.messagebox.showinfo('Error 2', 'Blood sugar level is too high')
+            tk.messagebox.showinfo('Error 2:', 'Blood sugar level is too high')
         if choice == 3:
-            tk.messagebox.showinfo('Error 3', 'Blood sugar level is too low')
+            tk.messagebox.showinfo('Error 3:', 'Blood sugar level is too low')
         if choice == 4:
-            tk.messagebox.showinfo('Error 4', 'To be implemented')
+            tk.messagebox.showinfo('Error 4:', 'To be implemented')
         if choice == 5:
-            tk.messagebox.showinfo('Error: unable to fecth data')
+            tk.messagebox.showinfo('Error 5:', 'UNABLE TO FETCH DATA')
+    
+    def hints(self, choice):
+        
+        if choice == 1:
+            tk.messagebox.showinfo("Hint 1:", 'Enter a correct value')
+        if choice == 2:
+            tk.messagebox.showinfo("Hint 2:", 'Enter a numerical value')
+            
+            
+#End of Class

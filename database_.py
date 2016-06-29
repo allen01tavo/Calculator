@@ -7,8 +7,8 @@ filename: database_.py
 
 
 import sqlite3 as sql
-import calculator1 as cal
-import tkinter as tk
+import errors_ as errs
+
 
 class database_:
     
@@ -96,6 +96,7 @@ class database_:
                 data.append(value)
 
         except:
+            errs.errors_().error_messages(5)
             print('Error: cannot fetch data') 
         
         # disconnect from server

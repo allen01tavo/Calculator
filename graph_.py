@@ -7,7 +7,7 @@ Created on Jun 25, 2016
 import tkinter as tr
 import texttable as tbl
 
-class MyClass(object):
+class graph_:
     '''
     classdocs
     '''

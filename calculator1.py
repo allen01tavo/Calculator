@@ -62,7 +62,7 @@ class calculator1:
         #inserting values into the record list
         self.recordList.tk_menuBar()
         cnt = 0
-        for result in db.database_.db_print(self, 'patient.db'):
+        for result in db.database_().db_print('patient.db'):
             self.recordList.insert(cnt,result)
             ++cnt
         self.frame_1.pack()

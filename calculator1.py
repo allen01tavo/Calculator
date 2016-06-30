@@ -3,14 +3,11 @@
     filename: calculator1.py
 '''
 import tkinter as Tr
-import tkinter.messagebox
-
-
 import database_ as db
 
 import texttable as tbl
 import sqlite3 as sql
-from test.sortperf import tabulate
+
 
 
 #import mysql
@@ -28,35 +25,29 @@ class calculator1:
         self.root = Tr.Tk()                         # creates a main application window
         self.root.title(title)                      # application window title
         self.root.minsize(width=666, height=666)    # application window size
-        self.frame_1 = tkinter.Frame(self.root)
-        self.frame_2 = tkinter.Frame(self.root)
-        self.frame_3 = tkinter.Frame(self.root)
+        self.frame_1 = Tr.Frame(self.root)
+        self.frame_2 = Tr.Frame(self.root)
+
+        self.frame_7 = Tr.Frame(self.root)
+        self.frame_8 = Tr.Frame(self.root)
         
         
-        self.btn_click = tkinter.Button(self.frame_1, \
-                                       text  = 'Press Me', command = self.ok_message)
-        self.btn_close = tkinter.Button(self.frame_2,\
+        self.btn_click = Tr.Button(self.frame_1, \
+                                       text  = 'NEW PATIENT', command = self.new_patient)
+        self.btn_close = Tr.Button(self.frame_2,\
                                         text = 'CLOSE', command = self.root.destroy)
-        self.keyLabel = Tr.Entry(self.frame_1, \
-                                        width = 4)
-        self.nameLabel = Tr.Entry(self.frame_1, \
-                                        width = 10)
-        self.ageLabel = Tr.Entry(self.frame_1, \
-                                        width = 4)
-        self.blooSugarLabel = Tr.Entry(self.frame_1, \
-                                        width = 10)
         
-        self.recordList = Tr.Listbox(self.frame_1, height=4, width= 50)
+
+        
+        self.recordList = Tr.Listbox(self.frame_8, height=4, width= 50)
+        self.patientLbl = Tr.Label(self.frame_8, text = 'PATIENT LIST')
 
         self.recordList.pack(side = 'bottom')
+        self.patientLbl.pack(side = 'top')
         
-        self.btn_click.pack(side = 'left')
-        self.btn_close.pack(side = 'left')
-        self.keyLabel.pack(side = 'left')
-        self.nameLabel.pack(side = 'left')
-        self.ageLabel.pack(side = 'left')
-        self.blooSugarLabel.pack(side = 'left')
-        self.keyLabel.pack(side = 'left')
+        self.btn_click.pack(side = 'bottom')
+        self.btn_close.pack(side = 'right')
+
         #self.databse()
         db.database_().databse()
         #inserting values into the record list
@@ -65,11 +56,12 @@ class calculator1:
         for result in db.database_().db_print('patient.db'):
             self.recordList.insert(cnt,result)
             ++cnt
-        self.frame_1.pack()
-        self.frame_2.pack()
-        self.frame_3.pack(side = 'top')
+        self.frame_1.pack(side = 'top')
+        self.frame_2.pack(side = 'bottom')
+        self.frame_7.pack(side = 'bottom')
+        self.frame_8.pack(side = 'bottom')
         
-        tkinter.mainloop()
+        Tr.mainloop()
         
         
     def databse(self):
@@ -95,7 +87,7 @@ class calculator1:
             self.testvalue += row + '\n'
 
         self.frame_3 = Tr.Frame(self.root)
-        self.label_2 = tkinter.Label(self.frame_1, \
+        self.label_2 = Tr.Label(self.frame_1, \
                                     text = self.testvalue)
         
         self.label_2.pack(side = 'right')
@@ -121,7 +113,7 @@ class calculator1:
                 
     def ok_message(self):
         # General Message
-        self.lable_1 = tkinter.Label(self.frame_1, \
+        self.lable_1 = Tr.Label(self.frame_1, \
                                     text = 'Thank you for pressing me!')
         self.lable_1.pack(side = 'right')
         self.graph_()               # calls out the graph function after button is pressed
@@ -130,51 +122,87 @@ class calculator1:
     def destroy_root(self):
         # destroys main window
         self.root.destroy()
-    
-    def error_message(self, choice):
-        # Error message codes
-        if choice == 1:
-            tkinter.messagebox.showinfo('Error 1', 'Please enter a blood sugar level value')
-        if choice == 2:
-            tkinter.messagebox.showinfo('Error 2', 'Blood sugar level is too high')
-        if choice == 3:
-            tkinter.messagebox.showinfo('Error 3', 'Blood sugar level is too low')
-        if choice == 4:
-            tkinter.messagebox.showinfo('Error 4', 'To be implemented')
-    
-    def graph_(self):
-        # Graph sugar level vs time
-        # This section has not been implemented
-        title = 'Sugar Level Vs. Time'
-        output_txt = tbl.Texttable()
-        
-        output_txt.add_row(['Gus', 36]) 
-        output_txt.add_row(['Xavier', 33])
-        
-        self.graph_window = Tr.Tk()                     # creates a new window
-        self.graph_window.minsize(400, 300)
-        self.graph_window.title(title)
-        self.frame_1 = tkinter.Frame(self.graph_window) # frame to enclose the button
-        self.frame_2 = tkinter.Frame(self.graph_window)
-        
-        # Creates a close button
-        self.close_btn = Tr.Button(self.frame_1, \
-                                        text = 'Close', command = self.close_window)
-        self.output_lbl = Tr.Label(self.frame_2, \
-                                        text = output_txt.draw())
-    
-        self.close_btn.pack(side = 'left')
-        self.output_lbl.pack(side = 'right')
-        self.frame_1.pack(side = 'bottom')
-        self.frame_2.pack(side = 'top')
-        print(output_txt.draw())
-        
-        
+                
     def close_window(self):
         
         self.graph_window.destroy()
         # after the graph is destroyed it cannot be recreated
         # needs to fix this par
+    
+    def new_patient(self):
+        # This section creates a new patient
+        title = 'NEW PATIENT'
+        
+        self.new_patient_window = Tr.Tk()                     # creates a new window
+        self.new_patient_window.minsize(400, 300)
+        self.new_patient_window.title(title)
+        self.frame1 = Tr.Frame(self.new_patient_window)
+        self.frame2 = Tr.Frame(self.new_patient_window)
+        self.frame3 = Tr.Frame(self.new_patient_window)
+        self.frame4 = Tr.Frame(self.new_patient_window)
+        self.frame5 = Tr.Frame(self.new_patient_window)
+        self.frame6 = Tr.Frame(self.new_patient_window)
+        
+        
+        # Creates a close button
+        self.save_btn = Tr.Button(self.frame1, \
+                                        text = 'SAVE', command = self.save_record)
+        self.cancel_btn = Tr.Button(self.frame1, \
+                                        text = 'CANCEL', command = self.close_window)
+        
+        self.keyLbl = Tr.Label(self.frame3, \
+                                        text = 'ENTRY #:     ')
+        self.keyLbl.pack(side = 'left')
+        self.keyEntry = Tr.Entry(self.frame3, \
+                                        width = 4)
+        
+        
+        self.nameLbl = Tr.Label(self.frame4, \
+                                        text = 'NAME:        ')
+        self.nameLbl.pack(side = 'left')
+        self.nameEntry = Tr.Entry(self.frame4, \
+                                        width = 10)
+        
+        self.ageLbl = Tr.Label(self.frame5, \
+                                        text = 'AGE:        ')
+        self.ageLbl.pack(side = 'left')
+        self.ageEntry = Tr.Entry(self.frame5, \
+                                        width = 4)
+        
+        self.bdayLbl = Tr.Label(self.frame6, \
+                                        text = 'Birtdhay:    ')
+        self.bdayLbl.pack(side = 'left')
+        self.bdayEntry = Tr.Entry(self.frame6, \
+                                        width = 10)
+        
+        self.keyEntry.pack(side = 'right')
+        self.nameEntry.pack(side = 'right')
+        self.ageEntry.pack(side = 'right')
+        self.bdayEntry.pack(side = 'right')
+
+    
+        self.save_btn.pack(side = 'right')
+        self.cancel_btn.pack(side = 'left')
+        self.frame1.pack(side = 'bottom')
+        self.frame2.pack(side = 'top')
+        self.frame3.pack(side = 'top')
+        self.frame4.pack(side = 'top')
+        self.frame5.pack(side = 'top')
+        self.frame6.pack(side = 'top')
+        
+    def save_record(self):
+        # saves record into database
+        id_ = int(self.keyEntry.get())
+        name_ = self.nameEntry.get()
+        age_ = int(self.ageEntry.get())
+        bday_ = self.bdayEntry.get()
+        
+        #record_ = '('+id_ + ',' + name_ + ',' + age_ + ',' + blSugar_ + ')'
+        table = sql.connect('patient.db')
+        cursor = table.cursor()
+        cursor.execute('INSERT INTO PATIENT VALUES (?,?,?,?)', (id_, name_, age_,bday_))
+        table.commit()
+        
         
         
 #myGuid = calculator1('BLOOD SUGAR LEVEL')

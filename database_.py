@@ -29,7 +29,7 @@ class database_:
                            ID                     KEY     NOT NULL,
                            NAME                   TEXT    NOT NULL,
                            AGE                    INT     NOT NULL,
-                           BIRTHDATE              TEXT    NOT NULL);''')
+                           BIRTHDAY               TEXT    NOT NULL);''')
         table.commit()
         
         cursor.execute('''CREATE TABLE IF NOT EXISTS BLSUGGAR (
@@ -37,12 +37,12 @@ class database_:
                            BLOOD SUGAR LEVEL      INT     NOT NULL,
                            TIME                   INT     NOT NULL,
                            DATE                   TEXT    NOT NULL);''')
-
-        # The two tables must be join in order to create a better database
-        # 
         table.commit()
-
-        #cal.calculator1.insert_data(self,table)
+        
+        # The two tables must be join in order to create a better database
+        # This part needs implementation
+        
+        
         table.close()
         
     def insert_record_patient(self, db_name, record):
@@ -76,7 +76,7 @@ class database_:
         cursor = table.cursor()
         # Prepare SQL query to INSERT a record into the database.
         condition = "SELECT * FROM PATIENT \
-               WHERE AGE = '%d'" % (36)
+               WHERE AGE > '%d'" % (36)
 
         # Creates a list to store output values
         data = [] 
@@ -90,9 +90,9 @@ class database_:
                 id_ = row[0]
                 name = row[1]
                 age = row[2]
-                birthdate = row[3]
+                birthday = row[3]
                 # Callects information an stores it into array
-                value = "%d,    %s,    %d,    %s" % (id_, name, age, birthdate)
+                value = "%d,    %s,    %d,    %s" % (id_, name, age, birthday)
                 data.append(value)
 
         except:
@@ -102,7 +102,6 @@ class database_:
         # disconnect from server
         table.close()
         return data
-        
         
     def db_navagation(self):
         # Navigation to the database possible

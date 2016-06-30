@@ -9,7 +9,6 @@ import texttable as tbl
 import sqlite3 as sql
 
 
-
 #import mysql
 #from mysql.connector import error_code
 
@@ -24,23 +23,20 @@ class calculator1:
         
         self.root = Tr.Tk()                         # creates a main application window
         self.root.title(title)                      # application window title
-        self.root.minsize(width=666, height=666)    # application window size
+        self.root.minsize(width=666, height=400)    # application window size
         self.frame_1 = Tr.Frame(self.root)
         self.frame_2 = Tr.Frame(self.root)
-
-        self.frame_7 = Tr.Frame(self.root)
-        self.frame_8 = Tr.Frame(self.root)
+        self.frame_3 = Tr.Frame(self.root)
+        self.frame_4 = Tr.Frame(self.root)
         
         
         self.btn_click = Tr.Button(self.frame_1, \
-                                       text  = 'NEW PATIENT', command = self.new_patient)
+                                       text  = 'NEW PATIENT', command = self.new_patient_win)
         self.btn_close = Tr.Button(self.frame_2,\
-                                        text = 'CLOSE', command = self.root.destroy)
+                                        text = 'CLOSE', command = self.root.quit)
         
-
-        
-        self.recordList = Tr.Listbox(self.frame_8, height=4, width= 50)
-        self.patientLbl = Tr.Label(self.frame_8, text = 'PATIENT LIST')
+        self.recordList = Tr.Listbox(self.frame_4, height=8, width= 50)
+        self.patientLbl = Tr.Label(self.frame_4, text = 'PATIENT LIST')
 
         self.recordList.pack(side = 'bottom')
         self.patientLbl.pack(side = 'top')
@@ -48,7 +44,7 @@ class calculator1:
         self.btn_click.pack(side = 'bottom')
         self.btn_close.pack(side = 'right')
 
-        #self.databse()
+        # Creates database if it does not exist or open database to connect to it
         db.database_().databse()
         #inserting values into the record list
         self.recordList.tk_menuBar()
@@ -58,58 +54,10 @@ class calculator1:
             ++cnt
         self.frame_1.pack(side = 'top')
         self.frame_2.pack(side = 'bottom')
-        self.frame_7.pack(side = 'bottom')
-        self.frame_8.pack(side = 'bottom')
+        self.frame_3.pack(side = 'bottom')
+        self.frame_4.pack(side = 'bottom')
         
         Tr.mainloop()
-        
-        
-    def databse(self):
-        # Create a database to store blood sugar levels of patient
-        # This needs some implementation 
-        table = sql.connect('patient.db')
-        cursor = table.cursor()
-        #cursor.execute('CREATE DATABASE patient')
-        self.testvalue = ''
-        
-        # CREATES TABLE IF DOES NOT EXIST
-        cursor.execute('''CREATE TABLE IF NOT EXISTS PATIENT (
-                           ID INT PRIMARY         KEY    NOT NULL,
-                           NAME                   TEXT    NOT NULL,
-                           AGE                    INT     NOT NULL,
-                           BLOOD SUGAR LEVEL      INT     NOT NULL,
-                           TIME                   INT     NOT NULL,
-                           DATE                   TEXT    NOT NULL);''')
-
-        # print database
-        values = cursor.fetchall()
-        for row in values:
-            self.testvalue += row + '\n'
-
-        self.frame_3 = Tr.Frame(self.root)
-        self.label_2 = Tr.Label(self.frame_1, \
-                                    text = self.testvalue)
-        
-        self.label_2.pack(side = 'right')
-        #self.insert_data(table)
-        
-        
-        table.close()
-        
-    def insert_data(self, table):
-        #insert items into table
-        for i in [(1,'Gustavo Maturana', 36, 'May 6'),
-                  (2,'Javier  Maturana', 33, 'May 7')]:
-            table.execute('INSERT INTO PATIENT VALUES (?,?,?,?)', i)
-            table.commit()
-        for i in [(3,'Gustavo Maturana', 36, 'May 6'),
-                  (4,'Javier  Maturana', 33, 'May 7')]:
-            table.execute('INSERT INTO PATIENT VALUES (?,?,?,?)', i)
-            table.commit()
-        
-    def db_print(self):
-        # prints information stored in the database
-        print('Implementation needed')
                 
     def ok_message(self):
         # General Message
@@ -122,14 +70,8 @@ class calculator1:
     def destroy_root(self):
         # destroys main window
         self.root.destroy()
-                
-    def close_window(self):
-        
-        self.graph_window.destroy()
-        # after the graph is destroyed it cannot be recreated
-        # needs to fix this par
     
-    def new_patient(self):
+    def new_patient_win(self):
         # This section creates a new patient
         title = 'NEW PATIENT'
         
@@ -148,7 +90,7 @@ class calculator1:
         self.save_btn = Tr.Button(self.frame1, \
                                         text = 'SAVE', command = self.save_record)
         self.cancel_btn = Tr.Button(self.frame1, \
-                                        text = 'CANCEL', command = self.close_window)
+                                        text = 'CANCEL', command = self.cancel_)
         
         self.keyLbl = Tr.Label(self.frame3, \
                                         text = 'ENTRY #:     ')
@@ -197,12 +139,19 @@ class calculator1:
         age_ = int(self.ageEntry.get())
         bday_ = self.bdayEntry.get()
         
-        #record_ = '('+id_ + ',' + name_ + ',' + age_ + ',' + blSugar_ + ')'
-        table = sql.connect('patient.db')
-        cursor = table.cursor()
-        cursor.execute('INSERT INTO PATIENT VALUES (?,?,?,?)', (id_, name_, age_,bday_))
-        table.commit()
+        db.database_().insert_record_patient('patient.db', (id_, name_, age_, bday_))
+        self.clear_()
+    
+    def clear_(self):
         
+        self.keyEntry.delete(0, Tr.END)
+        self.nameEntry.delete(0, Tr.END)
+        self.ageEntry.delete(0, Tr.END)
+        self.bdayEntry.delete(0, Tr.END)
+        self.nameEntry.focus()
+    
+    def cancel_(self):
+        self.new_patient_window.destroy()
         
         
 #myGuid = calculator1('BLOOD SUGAR LEVEL')

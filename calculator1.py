@@ -4,6 +4,8 @@
 '''
 import tkinter as Tr
 import database_ as db
+import errors_ as errs
+
 
 import texttable as tbl
 import sqlite3 as sql
@@ -78,10 +80,10 @@ class calculator1:
         self.new_patient_window = Tr.Tk()                     # creates a new window
         self.new_patient_window.minsize(400, 300)
         self.new_patient_window.title(title)
-        self.frame1 = Tr.Frame(self.new_patient_window)
-        self.frame2 = Tr.Frame(self.new_patient_window)
-        self.frame3 = Tr.Frame(self.new_patient_window)
-        self.frame4 = Tr.Frame(self.new_patient_window)
+        self.frame1 = Tr.Frame(self.new_patient_window, height = 100)
+        self.frame2 = Tr.Frame(self.new_patient_window, width = 100)
+        self.frame3 = Tr.Frame(self.new_patient_window, width = 100)
+        self.frame4 = Tr.Frame(self.new_patient_window, width = 100)
         self.frame5 = Tr.Frame(self.new_patient_window)
         self.frame6 = Tr.Frame(self.new_patient_window)
         
@@ -138,7 +140,7 @@ class calculator1:
         name_ = self.nameEntry.get()
         age_ = int(self.ageEntry.get())
         bday_ = self.bdayEntry.get()
-        
+            
         db.database_().insert_record_patient('patient.db', (id_, name_, age_, bday_))
         self.clear_()
     
@@ -152,6 +154,16 @@ class calculator1:
     
     def cancel_(self):
         self.new_patient_window.destroy()
+        
+    def disable_button_(self):
+        
+        if self.keyEntry.get() == '' or self.nameEntry.get() == '' \
+                or self.ageEntry.get() == '' or self.bdayEntry.get() == '':
+            self.save_btn(sate = 'DISABLE')
+        
+        else:
+            self.save_btn(sate = 'ENABLE')
+            
         
         
 #myGuid = calculator1('BLOOD SUGAR LEVEL')

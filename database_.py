@@ -5,7 +5,6 @@ filename: database_.py
 @author: gmaturan
 '''
 
-
 import sqlite3 as sql
 import errors_ as errs
 
@@ -42,7 +41,6 @@ class database_:
         # The two tables must be join in order to create a better database
         # This part needs implementation
         
-        
         table.close()
         
     def insert_record_patient(self, db_name, record):
@@ -76,7 +74,7 @@ class database_:
         cursor = table.cursor()
         # Prepare SQL query to INSERT a record into the database.
         condition = "SELECT * FROM PATIENT \
-               WHERE AGE > '%d'" % (36)
+               WHERE ID > '%d'" % (0)
 
         # Creates a list to store output values
         data = [] 

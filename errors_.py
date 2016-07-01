@@ -25,7 +25,7 @@ class errors_:
         if choice == 3:
             tk.messagebox.showinfo('Error 3:', 'Blood sugar level is too low')
         if choice == 4:
-            tk.messagebox.showinfo('Error 4:', 'To be implemented')
+            tk.messagebox.showinfo('Error 4:', 'There is not value')
         if choice == 5:
             tk.messagebox.showinfo('Error 5:', 'UNABLE TO FETCH DATA')
     

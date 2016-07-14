@@ -4,7 +4,7 @@ Created on Jun 27, 2016
 @author: gmaturan
 '''
 
-import tkinter as tk
+import Tkinter as tk
 
 class errors_:
     '''

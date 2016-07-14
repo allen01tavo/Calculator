@@ -2,7 +2,7 @@
     written on: May 14, 2016
     filename: calculator1.py
 '''
-import tkinter as Tr
+import Tkinter as Tr
 import database_ as db
 import errors_ as errs
 

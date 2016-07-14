@@ -6,7 +6,7 @@ filename: database_.py
 '''
 
 import sqlite3 as sql
-import errors_ as errs
+#import errors_ as ers
 
 
 class database_:
@@ -94,7 +94,7 @@ class database_:
                 data.append(value)
 
         except:
-            errs.errors_().error_messages(5)
+           # ers.errors_().error_messages(5)
             print('Error: cannot fetch data') 
         
         # disconnect from server

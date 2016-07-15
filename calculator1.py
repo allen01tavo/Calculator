@@ -4,11 +4,8 @@
 '''
 import Tkinter as Tr
 import database_ as db
-import errors_ as errs
-
-
-import texttable as tbl
-import sqlite3 as sql
+import errors_ as ers
+from asyncio.locks import Event
 
 
 #import mysql
@@ -17,6 +14,7 @@ import sqlite3 as sql
 class calculator1:
     
     DB_NAME = 'patient'
+    
 
     def __init__(self, title):
     
@@ -38,8 +36,9 @@ class calculator1:
                                         text = 'CLOSE', command = self.root.quit)
         
         self.recordList = Tr.Listbox(self.frame_4, height=8, width= 50)
+        
         self.patientLbl = Tr.Label(self.frame_4, text = 'PATIENT LIST')
-
+        self.recordList.bind("<Double-Button-1>", self.OnDouble)
         self.recordList.pack(side = 'bottom')
         self.patientLbl.pack(side = 'top')
         
@@ -58,6 +57,7 @@ class calculator1:
         self.frame_2.pack(side = 'bottom')
         self.frame_3.pack(side = 'bottom')
         self.frame_4.pack(side = 'bottom')
+        
         
         Tr.mainloop()
                 
@@ -163,6 +163,15 @@ class calculator1:
         
         else:
             self.save_btn(sate = 'ENABLE')
+    
+    #functions generates a new window when there is a double click on patient
+    def OnDouble(self, event):
+        widget = event.widget
+        selection=widget.curselection()
+        value = widget.get(selection[0])
+        print ("selection:", selection, ": '%s'" % value)
+        self.new_patient_win()
+    
             
         
         

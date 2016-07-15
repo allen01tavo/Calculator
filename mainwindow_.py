@@ -19,5 +19,7 @@ def intro_():
     # Implementation is needed
     print('Implementation needed')
 
+def window_():
+    print('Implementation needed')
 #call main function
 main()

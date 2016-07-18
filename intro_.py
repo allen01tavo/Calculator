@@ -4,7 +4,9 @@ Created on Jun 29, 2016
 @author: gmaturan
 '''
 
-import Tkinter as Tk
+import tkinter as Tk
+#import Tkinter as Tk
+
 import time as t
 
 class intro_:
@@ -13,9 +15,10 @@ class intro_:
     '''
 
 
-    def __init__(self, params):
+    def __init__(self):
         '''
         Constructor
         '''
+        
     def flash_screen(self):
         print('Implementation needed')

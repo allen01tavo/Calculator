@@ -4,7 +4,11 @@ Created on Jun 27, 2016
 @author: gmaturan
 '''
 
-import Tkinter as tk
+
+import tkinter as tk
+from tkinter import messagebox
+#import Tkinter as tk
+
 
 class errors_:
     '''
@@ -35,6 +39,21 @@ class errors_:
             tk.messagebox.showinfo("Hint 1:", 'Enter a correct value')
         if choice == 2:
             tk.messagebox.showinfo("Hint 2:", 'Enter a numerical value')
-            
+    
+    # specific messages
+    def general_error_messages(self, st):
+        
+        message = 'Please enter a value for: ' + st
+        tk.messagebox.showinfo('Missing Information', message)
+    
+    # delete message
+    def delete_message(self, st):
+        message = 'Patient name: ' + st + ' has been deleted!'
+        tk.messagebox.showinfo('Deletion Confirmation', message)
+    
+    def delete_confirmation(self, st):
+        result = tk.messagebox.askyesno('Confirm Deletion', st)
+        
+        return result
             
 #End of Class

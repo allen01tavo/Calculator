@@ -4,7 +4,10 @@ Created on Jun 25, 2016
 @author: gmaturan
 '''
 
-import Tkinter as tr
+
+import tkinter as tr
+#import Tkinter as tr
+
 import texttable as tbl
 
 class graph_:
